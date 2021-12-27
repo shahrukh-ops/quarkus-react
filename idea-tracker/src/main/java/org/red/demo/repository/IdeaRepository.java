@@ -8,4 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class IdeaRepository implements PanacheRepository<Idea> {
 
+
+
+
 }

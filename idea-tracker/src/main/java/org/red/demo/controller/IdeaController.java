@@ -6,15 +6,16 @@ import org.red.demo.repository.IdeaRepository;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
 @Path("/api/v1/ideas")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class IdeaController {
 
     @Inject
@@ -26,11 +27,41 @@ public class IdeaController {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Idea getIdeaById(@PathParam("id") Long id) {
         return ideaRepository.findById(id);
     }
+
+    @POST
+    @Transactional
+    public Response createIdea(Idea idea){
+        ideaRepository.persist(idea);
+        return Response.created(URI.create("/api/v1/ideas/" +idea.getId())).build();
+    }
+
+    @PUT
+    @Transactional
+    public Response updateIdea(Idea idea){
+        Idea ideaToBeUpdated = ideaRepository.findById(idea.getId());
+        if(ideaToBeUpdated!=null){
+            ideaToBeUpdated.setDescription(idea.getDescription());
+        }
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Transactional
+    @Path("{id}")
+    public Response deleteIdea(@PathParam("id") Long id){
+        Idea ideaToBeDeleted = ideaRepository.findById(id);
+        if(ideaToBeDeleted!=null){
+            ideaRepository.delete(ideaToBeDeleted);
+        }
+
+        return Response.ok().build();
+    }
+
+
 
     @GET
     @Path("/test")
