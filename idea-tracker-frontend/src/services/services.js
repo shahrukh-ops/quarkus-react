@@ -22,7 +22,7 @@ export const deleteIdea = async(accessToken, id) => {
 
 export const addIdea = async(accessToken, body) => {
 
-    return fetch("http://localhost:8080/api/v1/idea/", {
+    return fetch("http://localhost:8080/api/v1/idea", {
         method: "POST",
         body: JSON.stringify(
             body),
@@ -35,7 +35,7 @@ export const addIdea = async(accessToken, body) => {
 
 export const updateIdea = async(accessToken, body) => {
 
-    return fetch("http://localhost:8080/api/v1/idea/", {
+    return fetch("http://localhost:8080/api/v1/idea", {
         method: "PUT",
         body: JSON.stringify(
             body),

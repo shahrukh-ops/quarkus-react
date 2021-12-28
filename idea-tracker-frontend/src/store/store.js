@@ -6,6 +6,7 @@ const initialState = {
     isLoggedIn: false,
     ideas: null,
     accessToken: "",
+    ideaToUpdate: null,
     user: { userId: null, userEmail: "" }
 
 };
@@ -33,6 +34,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 accessToken: action.payload
+            };
+        case "SET_IDEA_TO_UPDATE":
+            return {
+                ...state,
+                ideaToUpdate: action.payload
             };
         default:
             return state;

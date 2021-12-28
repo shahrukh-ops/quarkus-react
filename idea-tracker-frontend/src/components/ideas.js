@@ -30,6 +30,10 @@ const Ideas = (props) => {
    }
 
    const updateClickHandler = (event) =>{
+    let ideaToUpdate = ideas.filter(idea =>{
+      return idea.id == event.target.value;
+    })
+    dispatch({ type: "SET_IDEA_TO_UPDATE", payload: ideaToUpdate[0] });
     dispatch({ type: "UPDATE_NAV", payload: "UPDATE_IDEA" });
    }
 

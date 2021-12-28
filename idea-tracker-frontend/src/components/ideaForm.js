@@ -1,17 +1,18 @@
 import React, { useState} from 'react';
-import {addIdea} from "../services/services";
+import {addIdea,updateIdea} from "../services/services";
 import { useSelector, useDispatch } from 'react-redux';
 
 const IdeaForm = (props) => {
 
   const accessToken = useSelector((state) => state.accessToken);
   const dispatch = useDispatch();
+  const ideaToUpdate = useSelector((state) => state.ideaToUpdate);
 
   const [idea,setIdea] = useState({
-    name:"",
-    description:"",
-    submitDate:"",
-    completionTargetDate:""
+    name:ideaToUpdate?.name,
+    description:ideaToUpdate?.description,
+    submitDate:ideaToUpdate?.submitDate,
+    completionTargetDate:ideaToUpdate?.completionTargetDate
   });
 
   const nameInputHandler = (event)=>{
@@ -45,8 +46,15 @@ const IdeaForm = (props) => {
 
   const submitHandler = async (event)=>{
     event.preventDefault();
+    if(props.create){
     await addIdea(accessToken,idea);
+    }
+    else {
+      await updateIdea(accessToken,{...idea,id:ideaToUpdate.id})
+    }
+    dispatch({ type: "SET_IDEA_TO_UPDATE", payload: ""});
     dispatch({ type: "UPDATE_NAV", payload: "LIST_IDEAS" }); 
+    
    
   }
 
@@ -56,19 +64,19 @@ const IdeaForm = (props) => {
       <form onSubmit={submitHandler}>
         <div>
           <label>Idea Name</label>
-          <input type="text" value={props.idea?.name} onChange={nameInputHandler} />
+          <input type="text" defaultValue={idea?.name} onChange={nameInputHandler} />
         </div>
         <div>
         <label>Idea Description</label>
-        <input type="text" value={props.idea?.description}  onChange={descriptionInputHandler}/>
+        <input type="text" defaultValue={idea?.description}  onChange={descriptionInputHandler}/>
         </div>
         <div>
         <label>Idea Submition Date</label>
-        <input type='date' min='2020-01-01' max='2024-12-31' value ={props.idea?.submitDate} onChange={submitDateHandler}/>
+        <input type='date' min='2020-01-01' max='2024-12-31' defaultValue ={idea?.submitDate} onChange={submitDateHandler}/>
         </div>
         <div>
         <label>Idea Target Completion Date</label>
-        <input type='date' min='2020-01-01' max='2024-12-31' value ={props.idea?.completionTargetDate} onChange={completionTargetDateHandler}/>
+        <input type='date' min='2020-01-01' max='2024-12-31' defaultValue ={idea?.completionTargetDate} onChange={completionTargetDateHandler}/>
         </div>
         <div>
           <button>Submit</button>
