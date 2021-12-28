@@ -3,6 +3,7 @@ import react from "react";
 import './App.css';
 import Login from "./components/login"
 import Signup from "./components/signup"
+import Ideas from "./components/ideas"
 import { useSelector, useDispatch  } from 'react-redux';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <>
         {!isLoggedIn &&  navigateTo=== "LOGIN" &&<Login parentDispatch={dispatch}></Login>}
         {!isLoggedIn && navigateTo==="CREATE_USER" && <Signup />}
+        {isLoggedIn && navigateTo==="LIST_IDEAS" && <Ideas />}
         </>
 
     );

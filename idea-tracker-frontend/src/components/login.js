@@ -42,7 +42,8 @@ const Login = (props) => {
         }
       })
       .then((data) => {
-        props.parentDispatch({ type: "SET_LOGIN", payload: true });
+        dispatch({ type: "SET_LOGIN", payload: true });
+        dispatch({ type: "UPDATE_NAV", payload: "LIST_IDEAS" });
       })
       .catch((err) => {
         alert(err.message);
