@@ -4,6 +4,8 @@ import org.red.demo.entity.Idea;
 import org.red.demo.repository.IdeaRepository;
 
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -20,20 +22,24 @@ public class IdeaController {
 
     @Inject
     IdeaRepository ideaRepository;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @PermitAll
     public List<Idea> getAllIdeas() {
         return ideaRepository.listAll();
     }
 
     @GET
     @Path("/{id}")
+    @PermitAll
     public Idea getIdeaById(@PathParam("id") Long id) {
         return ideaRepository.findById(id);
     }
 
     @POST
     @Transactional
+    @RolesAllowed({"ADMIN","USER"})
     public Response createIdea(Idea idea){
         ideaRepository.persist(idea);
         return Response.created(URI.create("/api/v1/ideas/" +idea.getId())).build();
@@ -41,6 +47,7 @@ public class IdeaController {
 
     @PUT
     @Transactional
+    @RolesAllowed({"ADMIN","USER"})
     public Response updateIdea(Idea idea){
         Idea ideaToBeUpdated = ideaRepository.findById(idea.getId());
         if(ideaToBeUpdated!=null){
@@ -52,6 +59,7 @@ public class IdeaController {
     @DELETE
     @Transactional
     @Path("{id}")
+    @RolesAllowed({"ADMIN"})
     public Response deleteIdea(@PathParam("id") Long id){
         Idea ideaToBeDeleted = ideaRepository.findById(id);
         if(ideaToBeDeleted!=null){
@@ -63,17 +71,18 @@ public class IdeaController {
 
 
 
-    @GET
-    @Path("/test")
-    @Transactional
-    @Produces(MediaType.TEXT_PLAIN)
-    public String createIdea() {
-        Idea idea = new Idea();
-        idea.setDescription("random idea");
-        idea.setName("new idea");
-        idea.setSubmitDate(new Date());
-        idea.setCompletionTargetDate(new Date());
-        ideaRepository.persist(idea);
-        return "Hello RESTEasy";
-    }
+//    @GET
+//    @Path("/test")
+//    @Transactional
+//    @Produces(MediaType.TEXT_PLAIN)
+//    @RolesAllowed("ADMIN")
+//    public String createIdea() {
+//        Idea idea = new Idea();
+//        idea.setDescription("random idea");
+//        idea.setName("new idea");
+//        idea.setSubmitDate(new Date());
+//        idea.setCompletionTargetDate(new Date());
+//        ideaRepository.persist(idea);
+//        return "Hello RESTEasy";
+//    }
 }
