@@ -5,7 +5,8 @@ const initialState = {
     navigateTo: "LOGIN",
     isLoggedIn: false,
     ideas: null,
-    user: { userId: null, userEmail: "", accessToken: "" }
+    accessToken: "",
+    user: { userId: null, userEmail: "" }
 
 };
 
@@ -27,6 +28,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ideas: action.payload
+            };
+        case "SET_IDEA":
+            return {
+                ...state,
+                accessToken: action.payload
             };
         default:
             return state;

@@ -1,19 +1,28 @@
 import React, { useEffect } from 'react';
-import {listIdeas} from "../services/services";
+import {listIdeas,deleteIdea} from "../services/services";
 import { useSelector, useDispatch } from 'react-redux';
 
 const Ideas = (props) => {
 
   const dispatch = useDispatch();
   const ideas = useSelector((state) => state.ideas);
+  const accessToken = useSelector((state) => state.accessToken);
 
  
   useEffect(async () => {
     let res = await (await listIdeas()).json();
-    console.log(res)
     dispatch({ type: "SET_IDEA", payload: res });
   }, []);
-console.log(ideas);
+ 
+   const handleDelete = async (event) =>{
+     alert("Are you sure you want to delete this idea")
+     await deleteIdea(accessToken,event.target.value);
+     let remainingIdeas = ideas.filter(idea =>{
+       return idea.id != event.target.value;
+     })
+     dispatch({ type: "SET_IDEA", payload: remainingIdeas });
+      
+   }
 
     return ( 
     <><h2>The List Of Ideas</h2>
@@ -35,7 +44,7 @@ console.log(ideas);
     <td>{idea.submitDate}</td>
     <td>{idea.completionTargetDate}</td>
     <td><button>Update</button></td>
-    <td><button>Delete</button></td>
+    <td><button value={idea.id} onClick={handleDelete}>Delete</button></td>
     </tr>
   })}</table>}
     <button>Add an Idea</button>
