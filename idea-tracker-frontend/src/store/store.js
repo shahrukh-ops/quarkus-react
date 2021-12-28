@@ -2,9 +2,9 @@ import { createStore } from 'redux';
 
 const initialState = {
 
-    navigateTo: null,
+    navigateTo: "LOGIN",
     isLoggedIn: false,
-    user: { userId: null, userEmail: "" }
+    user: { userId: null, userEmail: "", accessToken: "" }
 
 };
 
@@ -15,6 +15,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 navigateTo: action.payload
+            };
+        case "SET_LOGIN":
+            return {
+                ...state,
+                isLoggedIn: action.payload
             };
         default:
             return state;
