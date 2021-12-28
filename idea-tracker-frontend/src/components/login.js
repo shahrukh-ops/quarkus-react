@@ -44,7 +44,7 @@ const Login = (props) => {
       .then((data) => {
         dispatch({ type: "SET_LOGIN", payload: true });
         dispatch({ type: "UPDATE_NAV", payload: "LIST_IDEAS" });
-        dispatch({ type: "SET_ACCESS_TOKEN", payload: data.assessToken });
+        dispatch({ type: "SET_ACCESS_TOKEN", payload: data.accessToken });
       })
       .catch((err) => {
         alert(err.message);

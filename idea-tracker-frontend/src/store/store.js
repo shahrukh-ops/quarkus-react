@@ -29,7 +29,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 ideas: action.payload
             };
-        case "SET_IDEA":
+        case "SET_ACCESS_TOKEN":
             return {
                 ...state,
                 accessToken: action.payload
