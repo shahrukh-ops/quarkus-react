@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
-@Path("/api/v1/ideas")
+@Path("/api/v1/idea")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class IdeaController {
