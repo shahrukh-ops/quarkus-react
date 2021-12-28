@@ -34,7 +34,7 @@ public class UserController {
             userRepository.persist(newUser);
         else
             throw new WebApplicationException(Response.status(400).entity("User already exists").build());
-        return Response.created(URI.create("/api/v1/ideas/" +newUser.getId())).build();
+        return Response.status(201).build();
     }
 
     @POST

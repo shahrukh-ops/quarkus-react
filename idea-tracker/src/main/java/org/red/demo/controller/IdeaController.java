@@ -12,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class IdeaController {
     @RolesAllowed({"ADMIN","USER"})
     public Response createIdea(Idea idea){
         ideaRepository.persist(idea);
-        return Response.created(URI.create("/api/v1/ideas/" +idea.getId())).build();
+        return Response.status(201).build();
     }
 
     @PUT
@@ -52,6 +53,9 @@ public class IdeaController {
         Idea ideaToBeUpdated = ideaRepository.findById(idea.getId());
         if(ideaToBeUpdated!=null){
             ideaToBeUpdated.setDescription(idea.getDescription());
+            ideaToBeUpdated.setSubmitDate(idea.getSubmitDate());
+            ideaToBeUpdated.setName(idea.getName());
+            ideaToBeUpdated.setCompletionTargetDate(idea.getCompletionTargetDate());
         }
         return Response.ok().build();
     }
@@ -71,18 +75,18 @@ public class IdeaController {
 
 
 
-//    @GET
-//    @Path("/test")
-//    @Transactional
-//    @Produces(MediaType.TEXT_PLAIN)
-//    @RolesAllowed("ADMIN")
-//    public String createIdea() {
-//        Idea idea = new Idea();
-//        idea.setDescription("random idea");
-//        idea.setName("new idea");
-//        idea.setSubmitDate(new Date());
-//        idea.setCompletionTargetDate(new Date());
-//        ideaRepository.persist(idea);
-//        return "Hello RESTEasy";
-//    }
+    @GET
+    @Path("/test")
+    @Transactional
+    @Produces(MediaType.TEXT_PLAIN)
+    @PermitAll
+    public String createIdea() {
+        Idea idea = new Idea();
+        idea.setDescription("random idea");
+        idea.setName("new idea");
+        idea.setSubmitDate(LocalDate.now());
+        idea.setCompletionTargetDate(LocalDate.now());
+        ideaRepository.persist(idea);
+        return "Hello RESTEasy";
+   }
 }

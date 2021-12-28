@@ -1,12 +1,14 @@
 package org.red.demo.entity;
 
-import io.quarkus.arc.All;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+
 
 @Data
 @NoArgsConstructor
@@ -21,6 +23,8 @@ public class Idea {
     private Long id;
     private String name;
     private String description;
-    private Date submitDate;
-    private Date completionTargetDate;
+    @JsonbDateFormat(value = "yyyy-MM-dd")
+    private LocalDate submitDate;
+    @JsonbDateFormat(value = "yyyy-MM-dd")
+    private LocalDate  completionTargetDate;
 }
